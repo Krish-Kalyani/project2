@@ -21,7 +21,7 @@ class MarketOverviewScreen extends StatelessWidget {
               Row(
                 children: [
                   Image.asset(
-                    'assets/logotopleft.png',
+                    'assets/Logo.png',
                     height: 100,
                     width: 100,
                     fit: BoxFit.contain,

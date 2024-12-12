@@ -27,7 +27,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/Logo.png
-    - assets/logotopleft.png
     - assets/greenarrow.png
     - assets/redarrow.png
     - assets/bluerectangle.png
