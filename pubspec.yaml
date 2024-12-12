@@ -1,4 +1,4 @@
-name: project2
+name: project2test
 description: "A new Flutter project."
 publish_to: 'none'
 
@@ -27,3 +27,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/Logo.png
+    - assets/logotopleft.png
+    - assets/greenarrow.png
+    - assets/redarrow.png
+    - assets/bluerectangle.png
