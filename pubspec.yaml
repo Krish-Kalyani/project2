@@ -1,4 +1,4 @@
-name: project2test
+name: project2
 description: "A new Flutter project."
 publish_to: 'none'
 
@@ -16,6 +16,7 @@ dependencies:
   firebase_storage: ^12.3.7
   firebase_analytics: ^11.2.0
   firebase_messaging: ^15.1.6
+  http: ^1.2.2
   cupertino_icons: ^1.0.8
 
 dev_dependencies:
