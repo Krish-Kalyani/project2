@@ -95,8 +95,7 @@ class MyWatchlistScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          const FinancialNewsScreen(),
+                      builder: (context) => const FinancialNewsScreen(),
                     ),
                   );
                 },
@@ -206,3 +205,108 @@ class MyWatchlistScreen extends StatelessWidget {
       ),
     );
   }
+
+  Widget buildEmptyWatchlistTile() {
+    return Container(
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: Colors.grey,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        children: const [
+          Icon(Icons.add, size: 24, color: Colors.white),
+          SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              'No stocks in your watchlist. Add your first stock now!',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAddStockDialog(BuildContext context) {
+    final nameController = TextEditingController();
+    final symbolController = TextEditingController();
+    final priceController = TextEditingController();
+    final changeController = TextEditingController();
+    final percentChangeController = TextEditingController();
+    final trendController = TextEditingController(text: 'up');
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Add Stock'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(hintText: 'Name'),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: symbolController,
+                  decoration: const InputDecoration(hintText: 'Symbol'),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: priceController,
+                  decoration: const InputDecoration(hintText: 'Price'),
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: changeController,
+                  decoration: const InputDecoration(hintText: 'Change'),
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: percentChangeController,
+                  decoration: const InputDecoration(
+                      hintText: 'Percent Change (e.g. +3.22%)'),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: trendController,
+                  decoration:
+                      const InputDecoration(hintText: 'Trend (up/down)'),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await FirebaseFirestore.instance.collection('watchlist').add({
+                  'name': nameController.text.trim(),
+                  'symbol': symbolController.text.trim(),
+                  'price': double.tryParse(priceController.text.trim()) ?? 0.0,
+                  'change':
+                      double.tryParse(changeController.text.trim()) ?? 0.0,
+                  'percentChange': percentChangeController.text.trim(),
+                  'trend': trendController.text.trim().toLowerCase(),
+                });
+
+                Navigator.pop(context);
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
