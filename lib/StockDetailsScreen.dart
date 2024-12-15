@@ -91,3 +91,70 @@ class _StockDetailsScreenState extends State<StockDetailsScreen> {
                             color: Colors.black,
                           ),
                         ),
+                         const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              children: [
+                                const Text(
+                                  'Daily High',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text('\$${data['h']}'),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                const Text(
+                                  'Daily Low',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text('\$${data['l']}'),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Market Metrics',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        const Text('Market Cap: 3.475T'),
+                        const Text('P/E Ratio: 37.87'),
+                        const Text('Dividend Yield: 1.00 (0.44%)'),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 15),
+                          ),
+                          child: const Text(
+                            'Add/Remove',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return const Text('No data available');
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
