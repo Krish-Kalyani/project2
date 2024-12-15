@@ -58,3 +58,36 @@ class _StockDetailsScreenState extends State<StockDetailsScreen> {
                 width: 100,
                 fit: BoxFit.contain,
               ),
+               const SizedBox(height: 20),
+              FutureBuilder<Map<String, dynamic>>(
+                future: stockData,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(
+                        child: Text(
+                      'Error: ${snapshot.error}',
+                      style: const TextStyle(color: Colors.red),
+                    ));
+                  } else if (snapshot.hasData) {
+                    final data = snapshot.data!;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '${widget.stockSymbol} (${widget.stockSymbol})',
+                          style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Current Price: \$${data['c']}',
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
