@@ -47,4 +47,92 @@ class _FinancialNewsScreenState extends State<FinancialNewsScreen> {
       _newsData = fetchNews(query: _searchController.text.trim());
     });
   }
-
+@override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: const Text('Financial News'),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Center(
+                child: Image.asset(
+                  'assets/Logo.png',
+                  height: 100,
+                  width: 100,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Center(
+                child: Text(
+                  'Financial News',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: 'Search stocks (e.g., TSLA, AAPL)',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onSubmitted: (value) => _searchNews(),
+              ),
+              const SizedBox(height: 20),
+              FutureBuilder<List<Map<String, dynamic>>>(
+                future: _newsData,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Error: ${snapshot.error}',
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    );
+                  } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'No articles found. Try a different search.',
+                        style: TextStyle(color: Colors.black54),
+                      ),
+                    );
+                  } else if (snapshot.hasData) {
+                    final articles = snapshot.data!;
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: articles.length,
+                      itemBuilder: (context, index) {
+                        final article = articles[index];
+                        return buildNewsCard(article);
+                      },
+                    );
+                  } else {
+                    return const Center(child: Text('No data available.'));
+                  }
+                },
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
