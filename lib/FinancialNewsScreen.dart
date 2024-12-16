@@ -136,3 +136,45 @@ class _FinancialNewsScreenState extends State<FinancialNewsScreen> {
       ),
     );
   }
+  Widget buildNewsCard(Map<String, dynamic> article) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(article['headline']),
+            content: const Text('Would you like to open this article?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Open'),
+              ),
+            ],
+          ),
+        );
+      },
+      child: Card(
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        elevation: 5,
+        child: Row(
+          children: [
+            article['image'] != null
+                ? Image.network(
+                    article['image'],
+                    height: 100,
+                    width: 100,
+                    fit: BoxFit.cover,
+                  )
+                : Container(
+                    height: 100,
+                    width: 100,
+                    color: Colors.grey.shade200,
+                    child:
+                        const Icon(Icons.image, size: 50, color: Colors.grey),
+                  ),
